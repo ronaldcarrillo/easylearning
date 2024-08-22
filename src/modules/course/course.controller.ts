@@ -133,7 +133,7 @@ export class CourseController {
   /**
    * Método para actualizar un Course.
    * @param {string} id - ID del Course a actualizar.
-   * @param {UpdateCourseDto} updateCourseDto
+   * @param {UpdateCourseDto} updateCourseDto - Datos del Course.
    * @returns {Promise<boolean>} - true si actualizó, false sino actualizó.
    */
   @Patch(':id')

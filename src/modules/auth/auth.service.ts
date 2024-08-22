@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
-import { AuthTokenPayload, LoginDto, LoginResponseDto } from './dto/auth.dto';
+import { AuthTokenPayload } from './dto/auth.dto';
 
 /**
  * Clase que contiene los métodos manipular la autenticación.
@@ -16,14 +16,6 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  /**
-   *
-   * @param {LoginDto} root0 - Datos para inicio de sesión.
-   * @param {string} root0.email - Correo usado para la validación de usuario.
-   * @param {string} root0.password - Contraseña usada para la validación de usuario.
-   * @param user
-   * @returns {LoginResponseDto} objeto de tipo LoginResponseDto.
-   */
   // async login({ email, password }: LoginDto): Promise<LoginResponseDto> {
   //   const user = await this.userService.findOne({ email });
   //   const payload = { email: user.email, id: user.id };
@@ -33,6 +25,11 @@ export class AuthService {
   //   }
   //   throw new UnauthorizedException();
   // }
+  /**
+   *
+   * @param {User} user - Objeto User.
+   * @returns {Promise<{ user: User; token: string }>} - Objeto User y el Token.
+   */
   async login(user: User): Promise<{ user: User; token: string }> {
     const payload: AuthTokenPayload = { email: user.email, id: user.id };
     const token = await this.jwtService.signAsync(payload);

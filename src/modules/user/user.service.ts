@@ -41,7 +41,7 @@ export class UserService {
   /**
    * Método para crear un tipo de usuario.
    * @param {UserType} createUSerType - Dato para la creación de un tipo de usuario.
-   * @returns {UserType}
+   * @returns {Promise<UserType>} - Objeto USerType.
    */
   createUserType(createUSerType: UserType): Promise<UserType> {
     return this.userTypeRepository.save(createUSerType);
@@ -72,7 +72,7 @@ export class UserService {
   /**
    * Método para obtner un usuario.
    * @param {User} where - Filtro para la búsqueda.
-   * @returns {User} - Objeto de usuario.
+   * @returns {Promise<User>} - Objeto de usuario.
    */
   findOne(where: FindOptionsWhere<User> | FindOptionsWhere<User>[]): Promise<User> {
     return this.userRepository.findOne({ where });

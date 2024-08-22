@@ -31,7 +31,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   /**
    * Método para validar
-   * @param payload
+   * @param {AuthTokenPayload} payload - Datos a validar.
    * @returns {Promise<{ userId: number; username: string }>} - Retorna el ID y el email del usuario.
    */
   async validate(payload: AuthTokenPayload): Promise<{ userId: number; username: string }> {

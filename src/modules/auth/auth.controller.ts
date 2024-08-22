@@ -11,7 +11,7 @@ import { LocalAuthGuard } from 'src/guards/local-auth.guard';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { AuthInterceptorInterceptor } from './auth.intercetor/auth.interceptor';
 import { AuthService } from './auth.service';
-import { LoginDto, LoginResponseDto } from './dto/auth.dto';
+import { LoginResponseDto } from './dto/auth.dto';
 
 /**
  * Clase para realizar autenticación.
@@ -28,21 +28,20 @@ export class AuthController {
 
   /**
    *
-   * @param {LoginDto} loginDto - Datos para el inicio de sisón.
-   * @param request
+   * @param {Request} request - Petición.
    * @returns {Promise<LoginResponseDto>} - Objeto de tipo User.
    */
   @UseInterceptors(ClassSerializerInterceptor) /*Para excluir la contraseña de la entity. */
   @UseInterceptors(AuthInterceptorInterceptor)
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Request() request) {
-    return this.authService.login(request.user);
+  login(@Request() request: Request) {
+    return this.authService.login(request['user']);
   }
 
   /**
    * Método para crear un usuario.
-   * @param createUserDTO
+   * @param {CreateUserDto} createUserDTO - Datos USer.
    * @returns {Promise<number>} - Datos para crear un usuario.
    */
   @Post('register')
