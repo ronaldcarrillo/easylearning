@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateEvaluationDto } from './dto/create-evaluation.dto';
 import { UpdateEvaluationDto } from './dto/update-evaluation.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Evaluation } from './entities/evaluation.entity';
-import { Repository } from 'typeorm';
 
+/**
+ * Clase que contiene los métodos manipular la entity Evaluation.
+ */
 @Injectable()
 export class EvaluationService {
   constructor(
@@ -12,26 +15,53 @@ export class EvaluationService {
     private evaluationRepository: Repository<Evaluation>
   ) {}
 
-  async create(createEvaluationDto: CreateEvaluationDto) {
+  /**
+   * Método para crear una Evaluation.
+   * @param {CreateEvaluationDto} createEvaluationDto - Datos para crear una Evaluation.
+   * @returns {Promise<number>} - ID de la Evaluation creada.
+   */
+  async create(createEvaluationDto: CreateEvaluationDto): Promise<number> {
     const newEvaluation = await this.evaluationRepository.save(createEvaluationDto).then((eva) => eva.id);
     return newEvaluation;
   }
 
-  findAll() {
+  /**
+   * Método para obtener todas las Evaluations.
+   * @returns {Promise<Evaluation[]>} - Array de tipo Evaluation.
+   */
+  findAll(): Promise<Evaluation[]> {
     return this.evaluationRepository.find({
       relations: ['course']
     });
   }
 
-  findOne(id: number) {
+  /**
+   * Método para buscar una Evaluation.
+   * @param {number} id - ID de la Evaluation a buscar.
+   * @returns {Promise<Evaluation>} - Objeto de tipo Evaluation.
+   */
+  findOne(id: number): Promise<Evaluation> {
     return this.evaluationRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateEvaluationDto: UpdateEvaluationDto) {
-    return this.evaluationRepository.update(id, updateEvaluationDto).then((resp) => resp.affected > 0);
+  /**
+   * Método para actualizar una Evaluation.
+   * @param {number} id - ID de la Evaluation a actualizar.
+   * @param {UpdateEvaluationDto} updateEvaluationDto - Datos de la Evaluation.
+   * @returns {Promise<boolean>} - true si actualizó, false sino actualizó.
+   */
+  async update(id: number, updateEvaluationDto: UpdateEvaluationDto): Promise<boolean> {
+    const resp = await this.evaluationRepository.update(id, updateEvaluationDto);
+    return resp.affected > 0;
   }
 
-  remove(id: number) {
-    return this.evaluationRepository.delete(+id).then((resp) => resp.affected > 0);
+  /**
+   * Método para eliminar una Evaluation.
+   * @param {number} id - ID de la Evaluation a eliminar.
+   * @returns {Promise<boolean>} - true si eliminó, false sino eliminó.
+   */
+  async remove(id: number): Promise<boolean> {
+    const resp = await this.evaluationRepository.delete(+id);
+    return resp.affected > 0;
   }
 }

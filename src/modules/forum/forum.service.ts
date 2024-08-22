@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateForumDto } from './dto/create-forum.dto';
 import { UpdateForumDto } from './dto/update-forum.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Forum } from './entities/forum.entity';
-import { Repository } from 'typeorm';
 import { ForumMessage } from './entities/forumMessage.entity';
 
+/**
+ * Clase que contiene los métodos manipular la entity Forum y ForumMessage.
+ */
 @Injectable()
 export class ForumService {
   constructor(
@@ -16,55 +19,115 @@ export class ForumService {
     private forumMessageRepository: Repository<ForumMessage>
   ) {}
 
-  async create(createForumDto: CreateForumDto) {
+  /**
+   * Método para crear un Forum.
+   * @param {CreateForumDto} createForumDto - Datos del Forum a crear.
+   * @returns {Promise<number>} - ID del Forum creado.
+   */
+  async create(createForumDto: CreateForumDto): Promise<number> {
     const newForum = await this.forumRepository.save(createForumDto).then((resp) => resp.id);
     return newForum;
   }
 
-  createForumMessage(createMessage: ForumMessage) {
-    this.forumMessageRepository.save(createMessage).then((resp) => resp.id);
+  /**
+   * Método para crear un ForumMessage.
+   * @param {ForumMessage} createMessage - Datos del ForumMessage a crear.
+   * @returns {Promise<number>} - ID del ForumMessage creado.
+   */
+  async createForumMessage(createMessage: ForumMessage): Promise<number> {
+    const resp = await this.forumMessageRepository.save(createMessage);
+    return resp.id;
   }
 
-  findAll() {
+  /**
+   * Método para buscar todos los Forum.
+   * @returns {Promise<Forum[]>} - Array de tipo Froum.
+   */
+  findAll(): Promise<Forum[]> {
     return this.forumRepository.find({
       relations: { messages: { user: true } }
     });
   }
 
-  findAllForumMessage() {
+  /**
+   * Método para obtener todos los ForumMessage.
+   * @returns {Promise<ForumMessage[]>} - Array de tipo ForumMessage.
+   */
+  findAllForumMessage(): Promise<ForumMessage[]> {
     return this.forumMessageRepository.find({
       relations: ['forum', 'user']
     });
   }
 
-  findOne(id: number) {
+  /**
+   * Método para obtener un Forum por ID.
+   * @param {number} id - ID del Forum a buscar.
+   * @returns {Promise<Forum>} - Objeto de tipo Forum.
+   */
+  findOne(id: number): Promise<Forum> {
     return this.forumRepository.findOne({ where: { id } });
   }
 
-  findOneMessage(id: number) {
+  /**
+   * Método para obtener un ForumMessage por ID.
+   * @param {number} id - ID del ForumMesage a buscar.
+   * @returns {Promise<ForumMessage>} - Objeto de tipo ForumMEssage.
+   */
+  findOneMessage(id: number): Promise<ForumMessage> {
     return this.forumMessageRepository.findOne({
       where: { id },
       relations: ['forum', 'user']
     });
   }
 
-  update(id: number, updateForumDto: UpdateForumDto) {
-    return this.forumRepository.update(id, updateForumDto).then((resp) => resp.affected > 0);
+  /**
+   * Método para actualizar un Forum.
+   * @param {number} id - ID del Forum a actualizar.
+   * @param {UpdateForumDto} updateForumDto - Datos del Forum a actualizar.
+   * @returns {Promise<boolean>} true si actualizó, false sino actualizó.
+   */
+  async update(id: number, updateForumDto: UpdateForumDto): Promise<boolean> {
+    const resp = await this.forumRepository.update(id, updateForumDto);
+    return resp.affected > 0;
   }
 
-  updateMessage(id: number, updateMessage: ForumMessage) {
-    return this.forumMessageRepository.update(id, updateMessage).then((resp) => resp.affected > 0);
+  /**
+   * Método para actualizar un ForumMessage.
+   * @param {number} id - ID del ForumMessage a actualizar.
+   * @param {ForumMessage} updateMessage - Datos del ForumMessage.
+   * @returns {Promise<boolean>} - true si actualizó, false sino actualizó.
+   */
+  async updateMessage(id: number, updateMessage: ForumMessage): Promise<boolean> {
+    const resp = await this.forumMessageRepository.update(id, updateMessage);
+    return resp.affected > 0;
   }
 
-  remove(id: number) {
-    return this.forumRepository.delete(id).then((resp) => resp.affected > 0);
+  /**
+   * Método para eliminar un Dorum.
+   * @param {number} id - ID del forum a eliminar.
+   * @returns {Promise<boolean>} - true si eliminó, false sino eliminó.
+   */
+  async remove(id: number): Promise<boolean> {
+    const resp = await this.forumRepository.delete(id);
+    return resp.affected > 0;
   }
 
-  removeMessage(id: number) {
-    return this.forumMessageRepository.delete(id).then((resp) => resp.affected > 0);
+  /**
+   * Método para eliminar un ForumMessage.
+   * @param {number} id - ID del ForumMessage a eliminar.
+   * @returns {Promise<boolean>} - true si eliminó, false sino eliminó.
+   */
+  async removeMessage(id: number): Promise<boolean> {
+    const resp = await this.forumMessageRepository.delete(id);
+    return resp.affected > 0;
   }
 
-  findAllMessages(forumId: number) {
+  /**
+   * Método para buscar un ForumMessage por ID.
+   * @param {number} forumId - ID del ForumMessage a buscar.
+   * @returns {Promise<ForumMessage[]>} - Array de tipo ForumMessage.
+   */
+  findAllMessages(forumId: number): Promise<ForumMessage[]> {
     return this.forumMessageRepository.find({ where: { forum: { id: forumId } }, relations: ['forum'] });
   }
 }

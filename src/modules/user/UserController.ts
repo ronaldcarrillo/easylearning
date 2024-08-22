@@ -6,7 +6,11 @@ import { UserType } from './entities/userType.entity';
 import { UserService } from './user.service';
 
 /**
- * Clase controladora para comunicarnos con los métodos del service.
+ *
+ */
+
+/**
+ *
  */
 @Controller('user')
 export class UserController {
@@ -82,10 +86,10 @@ export class UserController {
   }
 
   /**
-   * Método para buscar un tipo de usuario por ID.
-   * @param {string} id - ID para buscar el tipo de usuario.
-   * @param {UserType} updateType - Datos de UserType para la actualización.
-   * @returns {Promise<number>} - Número de filas afectada en la actualización.
+   * Método para actualizar un tipo de usuario por ID.
+   * @param {string} id - ID del tipo de usuario a eliminar.
+   * @param {UserType} updateType - Objeto de tipo UserType.
+   * @returns {Promise<number>} - Devuelve el número de filas afectadas en la actualización.
    */
   @Patch('type/:id')
   updateUSerType(@Param('id') id: string, @Body() updateType: UserType): Promise<number> {
@@ -93,9 +97,9 @@ export class UserController {
   }
 
   /**
-   * Métodos para eliminar un usuario por su ID.
+   * Método para eliminar un usuario por su ID.
    * @param {string} id - ID del usuario a eliminar.
-   * @returns {Promise<boolean>} - retorna verdadero si se eliminó o flase sino se eliminó.
+   * @returns {Promise<boolean>} - true si eliminó, false sino eliminó.
    */
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
@@ -105,7 +109,7 @@ export class UserController {
   /**
    * Método para eliminar un tipo de usuario por ID.
    * @param {string} id - ID del tipo de usuario a eliminar.
-   * @returns {Promise<boolean>} - true si eliminó false sino eliminó.
+   * @returns {Promise<boolean>} - true si eliminó, false sino eliminó.
    */
   @Delete('type/:id')
   removeType(@Param('id') id: string): Promise<boolean> {

@@ -1,16 +1,11 @@
-import { User } from 'src/modules/user/entities/user.entity';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn
-} from 'typeorm';
-import { Course } from './course.entity';
 import { CommonEntity } from 'src/modules/common/entity/common.entity';
+import { User } from 'src/modules/user/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Course } from './course.entity';
 
+/**
+ * Clase que mapea la Entity TeacherCourse de la BD.
+ */
 @Entity()
 export class TeacherCourse extends CommonEntity {
   @Column()

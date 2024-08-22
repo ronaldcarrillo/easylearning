@@ -1,21 +1,12 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm';
-import { UserType } from './userType.entity';
-import { ForumMessage } from 'src/modules/forum/entities/forumMessage.entity';
-import { CommonEntity } from 'src/modules/common/entity/common.entity';
 import { Exclude } from 'class-transformer';
+import { CommonEntity } from 'src/modules/common/entity/common.entity';
+import { ForumMessage } from 'src/modules/forum/entities/forumMessage.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { UserType } from './userType.entity';
 
+/**
+ *Entidad que mapea la tabla de la BD user
+ */
 @Entity()
 export class User extends CommonEntity {
   @Column()

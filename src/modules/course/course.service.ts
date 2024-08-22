@@ -9,7 +9,7 @@ import { TeacherCurseStudent } from './entities/teacherCurseStudent.entity';
 import { TeacherCourse } from './entities/techerCourse.entity';
 
 /**
- *
+ * Clase que contiene los métodos manipular la entity Course y CourseState.
  */
 @Injectable()
 export class CourseService {
@@ -28,42 +28,51 @@ export class CourseService {
   ) {}
 
   /**
-   *
+   * Método para obtener CourseState.
+   * @returns {Promise<CourseState[]>} - Array de tipo CourseState.
    */
-  getCourseState() {
+  getCourseState(): Promise<CourseState[]> {
     return this.cousrseStateRepository.find({
       relations: ['courses']
     });
   }
 
   /**
-   *
-   * @param createCourseDto
+   * Método para crear un Course.
+   * @param {CreateCourseDto} createCourseDto - Datos para crear un Course.
+   * @returns {Promise<number>} - ID del Course creaado.
    */
-  create(createCourseDto: CreateCourseDto) {
-    return this.courseRepository.save(createCourseDto).then((course) => course.id);
+  async create(createCourseDto: CreateCourseDto): Promise<number> {
+    const course = await this.courseRepository.save(createCourseDto);
+    return course.id;
   }
 
   /**
-   *
-   * @param createCourseState
+   * Método para crear un CourseState.
+   * @param {CreateCourseDto} createCourseState - Datos para crear un CourseState
+   * @returns {Promise<number>} - ID del CourseState creado.
    */
-  createCourseState(createCourseState: CreateCourseDto) {
-    return this.cousrseStateRepository.save(createCourseState).then((courseState) => courseState.id);
+  async createCourseState(createCourseState: CreateCourseDto): Promise<number> {
+    const courseState = await this.cousrseStateRepository.save(createCourseState);
+    return courseState.id;
   }
 
   /**
-   *
-   * @param createTeacherCourse
+   * Método para crear un TeacherCourse.
+   * @param {TeacherCourse} createTeacherCourse - Datos para crear un TeacherCourse.
+   * @returns {Promise<number>} - ID del TeacherCourse creado.
    */
-  createTeacherCourse(createTeacherCourse: TeacherCourse) {
-    return this.teacherCourseRepository.save(createTeacherCourse).then((resp) => resp.id);
+  async createTeacherCourse(createTeacherCourse: TeacherCourse): Promise<number> {
+    const resp = await this.teacherCourseRepository.save(createTeacherCourse);
+    return resp.id;
   }
 
   /**
-   *
+   * Método para obtener todos los Course.
+   * @param {FindOptionsWhere<Course> | FindOptionsWhere<Course>[]} where - Filtro para la busqueda.
+   * @returns {Promise<Course[]>} - Array de tipo Course.
    */
-  findAll(where?: FindOptionsWhere<Course> | FindOptionsWhere<Course>[]) {
+  findAll(where?: FindOptionsWhere<Course> | FindOptionsWhere<Course>[]): Promise<Course[]> {
     return this.courseRepository.find({
       where,
       relations: ['course_state']
@@ -71,7 +80,9 @@ export class CourseService {
   }
 
   /**
-   *
+   * Método para obtener un TeacherCourse.
+   * @param {FindOptionsWhere<TeacherCourse> | FindOptionsWhere<TeacherCourse>[]} where - Filtro para buscar un TeacherCourse.
+   * @returns {TeacherCourse[]} - Array de tipo TeacherCourse.
    */
   getTeacherCurse(where?: FindOptionsWhere<TeacherCourse> | FindOptionsWhere<TeacherCourse>[]) {
     return this.teacherCourseRepository.find({
@@ -81,94 +92,111 @@ export class CourseService {
   }
 
   /**
-   *
+   * Método para obtener todos los TeacherCourse.
+   * @returns {Promise<TeacherCurseStudent[]>} - Array de tipo TeacherCourse.
    */
-  getTeacherCourseStudent() {
+  getTeacherCourseStudent(): Promise<TeacherCurseStudent[]> {
     return this.teacherCourseStudent.find({
       relations: ['teacherCourse', 'estudents']
     });
   }
 
   /**
-   *
-   * @param id
+   * Método para buscar un Course.
+   * @param {number} id - ID para buscar un Course.
+   * @returns {Promise<Course>} - Objeto de tipo Course.
    */
-  findOne(id: number) {
+  findOne(id: number): Promise<Course> {
     return this.courseRepository.findOne({ where: { id: id } });
   }
 
   /**
-   *
-   * @param id
+   * Método para buscar un CourseState.
+   * @param {string} id - ID del CourseState a buscar.
+   * @returns {Promise<CourseState>} - Objeto de tipo CourseState.
    */
-  findOneCourseState(id: number) {
+  findOneCourseState(id: number): Promise<CourseState> {
     return this.cousrseStateRepository.findOne({ where: { id: id } });
   }
 
   /**
-   *
-   * @param id
+   * Método para obtener un TeacherCOurse.
+   * @param {number} id - ID del TeacherCourse a buscar.
+   * @returns {Promise<TeacherCourse>} - Objeto de tipo TeacherCOurse.
    */
-  findOneTeacherCourse(id: number) {
+  findOneTeacherCourse(id: number): Promise<TeacherCourse> {
     return this.teacherCourseRepository.findOne({ where: { id: id } });
   }
 
   /**
-   *
-   * @param id
+   * Método para buscar un TeacherCourse.
+   * @param {number} id - ID del TeacherCourse a buscar.
+   * @returns {Promise<TeacherCourse>} - Objeto de tipo TeacherCourse.
    */
-  getTeacherCurseId(id: number) {
+  getTeacherCurseId(id: number): Promise<TeacherCourse> {
     return this.teacherCourseRepository.findOne({ where: { id } });
   }
 
   /**
-   *
-   * @param id
-   * @param updateCourseDto
+   * Método para actualizar un Course.
+   * @param {number} id - ID del Course a actualizar.
+   * @param {UpdateCourseDto} updateCourseDto - Datos del Course.
+   * @returns {Promise<boolean>} - true si actualizó, false sino actualizó.
    */
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return this.courseRepository.update(id, updateCourseDto).then((resp) => resp.affected > 0);
+  async update(id: number, updateCourseDto: UpdateCourseDto): Promise<boolean> {
+    const resp = await this.courseRepository.update(id, updateCourseDto);
+    return resp.affected > 0;
   }
 
   /**
-   *
-   * @param id
-   * @param updateCourseDto
+   * Método para actualizar un CourseState.
+   * @param {number} id - ID del CourseState a actualizar.
+   * @param {UpdateCourseDto} updateCourseDto - Datos del CourseState.
+   * @returns {Promise<boolean>} - true si actualizó, false sino actualizó.
    */
-  updateCourseState(id: number, updateCourseDto: UpdateCourseDto) {
-    return this.cousrseStateRepository.update(id, updateCourseDto).then((resp) => resp.affected > 0);
+  async updateCourseState(id: number, updateCourseDto: UpdateCourseDto): Promise<boolean> {
+    const resp = await this.cousrseStateRepository.update(id, updateCourseDto);
+    return resp.affected > 0;
   }
 
   /**
-   *
-   * @param id
-   * @param updateTeacherCourse
+   * Método para actualizar un TeacherCourse.
+   * @param {number} id - ID del TeacherCourse.
+   * @param {TeacherCourse} updateTeacherCourse - Datos del TeacherCourse.
+   * @returns {Promise<boolean>} - true si actualizó, false sino actualizó.
    */
-  updateTeacherCourse(id: number, updateTeacherCourse: TeacherCourse) {
-    return this.teacherCourseRepository.update(id, updateTeacherCourse).then((resp) => resp.affected > 0);
+  async updateTeacherCourse(id: number, updateTeacherCourse: TeacherCourse): Promise<boolean> {
+    const resp = await this.teacherCourseRepository.update(id, updateTeacherCourse);
+    return resp.affected > 0;
   }
 
   /**
-   *
-   * @param id
+   * Método para eliminar un Course.
+   * @param {number} id - ID del course a eliminar.
+   * @returns {Promise<boolean>} - true si eliminó, false sino eliminó.
    */
-  remove(id: number) {
-    return this.courseRepository.delete(+id).then((resp) => resp.affected > 0);
+  async remove(id: number): Promise<boolean> {
+    const resp = await this.courseRepository.delete(+id);
+    return resp.affected > 0;
   }
 
   /**
-   *
-   * @param id
+   * Método para eliminar un CourseState.
+   * @param {number} id - Del CourseState a eliminar.
+   * @returns {Promise<boolean>} - true si eliminó, false sino eliminó.
    */
-  removeState(id: number) {
-    return this.cousrseStateRepository.delete(+id).then((resp) => resp.affected > 0);
+  async removeState(id: number): Promise<boolean> {
+    const resp = await this.cousrseStateRepository.delete(+id);
+    return resp.affected > 0;
   }
 
   /**
-   *
-   * @param id
+   * Método para eliminar TeacherCourse.
+   * @param {number} id - ID del TeacherCourse a eliminar.
+   * @returns {Promise<boolean>} - true si eliminó, false sino eliminó.
    */
-  removeTeacherCourse(id: number) {
-    return this.teacherCourseRepository.delete(+id).then((resp) => resp.affected > 0);
+  async removeTeacherCourse(id: number): Promise<boolean> {
+    const resp = await this.teacherCourseRepository.delete(+id);
+    return resp.affected > 0;
   }
 }

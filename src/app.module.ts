@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Course } from './modules/course/entities/course.entity';
-import { ForumModule } from './modules/forum/forum.module';
-import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { CourseModule } from './modules/course/course.module';
 import { EvaluationModule } from './modules/evaluation/evaluation.module';
-import { TaskModule } from './modules/task/task.module';
 import { FileModule } from './modules/file/file.module';
-import { AuthModule } from './modules/auth/auth.module';
+import { ForumModule } from './modules/forum/forum.module';
+import { TaskModule } from './modules/task/task.module';
+import { UserModule } from './modules/user/user.module';
 
+/**
+ * Módulo principal, contiene todas las importaciones de los services
+ * y datos de la conexión a la BD.
+ */
 @Module({
   imports: [
     UserModule,

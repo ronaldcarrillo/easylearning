@@ -43,7 +43,7 @@ module.exports = {
       'error',
       {
         singleQuote: true,
-        trailingComma: true,
+        trailingComma: 'none',
         endOfLine: 'auto',
         tabWidth: 2,
         semi: true,

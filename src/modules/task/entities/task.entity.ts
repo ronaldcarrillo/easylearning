@@ -1,20 +1,12 @@
 import { File } from 'src/modules/file/entities/file.entity';
 
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-  PrimaryGeneratedColumn
-} from 'typeorm';
-import { TaskStudent } from './taskStudent.entity';
-import { TeacherCourse } from 'src/modules/course/entities/techerCourse.entity';
 import { CommonEntity } from 'src/modules/common/entity/common.entity';
+import { TeacherCourse } from 'src/modules/course/entities/techerCourse.entity';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { TaskStudent } from './taskStudent.entity';
+/**
+ * Entidad que mapea la tabla de la BD task.
+ */
 @Entity()
 export class Task extends CommonEntity {
   @Column()

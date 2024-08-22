@@ -3,7 +3,7 @@
 /node_modules
 /build
 /documentation
-/.husky
+
 # Logs
 logs
 *.log

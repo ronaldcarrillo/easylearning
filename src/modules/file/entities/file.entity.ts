@@ -1,5 +1,8 @@
 import { CommonEntity } from 'src/modules/common/entity/common.entity';
-import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
+/**
+ * Clase que mapea la Entity File de la BD.
+ */
 @Entity()
 export class File extends CommonEntity {
   @Column()

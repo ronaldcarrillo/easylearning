@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { TaskService } from './task.service';
-import { TaskController } from './task.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Task } from './entities/task.entity';
-import { File } from '../file/entities/file.entity';
-import { TeacherCurseStudent } from '../course/entities/teacherCurseStudent.entity';
-import { TaskStudent } from './entities/taskStudent.entity';
 import { TeacherCourse } from '../course/entities/techerCourse.entity';
+import { Task } from './entities/task.entity';
+import { TaskStudent } from './entities/taskStudent.entity';
+import { TaskController } from './task.controller';
+import { TaskService } from './task.service';
 
+/**
+ *Clase que contiene importaciones de los controladores, servicios y relaciones de las entidades
+ * para que el controlador y el servicio puedan funcionar.
+ */
 @Module({
   imports: [TypeOrmModule.forFeature([Task, TeacherCourse, TaskStudent]) /*, TaskStudent , TeacherCourse*/],
   controllers: [TaskController],

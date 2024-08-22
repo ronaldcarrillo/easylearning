@@ -1,7 +1,10 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ForumMessage } from './forumMessage.entity';
 import { CommonEntity } from 'src/modules/common/entity/common.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { ForumMessage } from './forumMessage.entity';
 
+/**
+ *
+ */
 @Entity()
 export class Forum extends CommonEntity {
   @Column()
